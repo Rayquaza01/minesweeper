@@ -34,23 +34,18 @@ args = ap.parse_args()
 
 # the file name for cart/folder
 cart_name = args.file[0]
-# if file is absolute path
-if os.path.abspath(cart_name) == cart_name:
-    # set cart to end of path, go to folder above
-    path = os.path.split(cart_name)
-    cart_name = path[1]
-    os.chdir(path[0])
+folder_name = args.file[0].split(".")[0]
 # the absolute path of the real cart
 cart = os.path.join(pico_dir, cart_name)
 
 # extract pico cart to separate files
 if args.action[0] == "export" and os.path.isfile(cart):
     # if file exists
-    print("Loading file: {}".format(cart))
+    print("Loading file: " + cart)
     contents = readFile(cart)
-    if not os.path.isdir(cart_name):
-        print("Creating {} folder".format(cart_name))
-        os.mkdir(cart_name)
+    if not os.path.isdir(folder_name):
+        print("Creating {} folder".format(folder_name))
+        os.mkdir(folder_name)
 
     currentSection = ""
     __head__ = ""
@@ -88,7 +83,7 @@ if args.action[0] == "export" and os.path.isfile(cart):
 
     print("Writing file: __head__")
     # write head to __head__ file
-    writeFile(os.path.join(cart_name, "__head__"), __head__)
+    writeFile(os.path.join(folder_name, "__head__"), __head__)
     # loop through sections
     for section in sections:
         if section == "__lua__":
@@ -96,27 +91,27 @@ if args.action[0] == "export" and os.path.isfile(cart):
             for i in range(len(sections["__lua__"])):
                 print("Writing file: {}.p8.lua".format(i))
                 # write lua file with tab index as file name
-                writeFile(os.path.join(cart_name, str(i) + ".p8.lua"), sections[section][i])
+                writeFile(os.path.join(folder_name, str(i) + ".p8.lua"), sections[section][i])
         else:
             print("Writing file: " + section)
             # write section contents to section
-            writeFile(os.path.join(cart_name, section), sections[section])
+            writeFile(os.path.join(folder_name, section), sections[section])
 
     print("\nDone!")
 # combine files to pico cart
-elif args.action[0] == "import" and os.path.isdir(cart_name):
+elif args.action[0] == "import" and os.path.isdir(folder_name):
     # create var for storing combined pico cart contents
     pico = ""
     print("Loading file: __head__")
     # add head to cart
-    pico += readFile(os.path.join(cart_name, "__head__"))
+    pico += readFile(os.path.join(folder_name, "__head__"))
 
     # add lua section
     pico += "__lua__\n"
     number = 0
     while True:
         # loop through numbers numbers until a non existant file is found
-        file = os.path.join(cart_name, str(number) + ".p8.lua")
+        file = os.path.join(folder_name, str(number) + ".p8.lua")
         if not os.path.isfile(file):
             break;
 
@@ -132,10 +127,12 @@ elif args.action[0] == "import" and os.path.isdir(cart_name):
     for section in ["__gfx__", "__label__", "__map__", "__sfx__", "__music__"]:
         pico += section + "\n"
         print("Loading file: " + section)
-        pico += readFile(os.path.join(cart_name, section))
+        pico += readFile(os.path.join(folder_name, section))
 
-    print("Writing file: " + cart)
     # write to cart
+    print ("Writing file: " + cart_name)
+    writeFile(cart_name, pico)
+    print("Writing file: " + cart)
     writeFile(cart, pico)
 
     print("\nDone!")

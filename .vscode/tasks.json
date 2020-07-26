@@ -9,7 +9,7 @@
             "command": "./bin/pico-mbine.py",
             "args": [
                 "export",
-                "${workspaceFolder}"
+                "minesweeper.p8"
             ],
             "problemMatcher": []
         },
@@ -19,7 +19,7 @@
             "command": "./bin/pico-mbine.py",
             "args": [
                 "import",
-                "${workspaceFolder}"
+                "minesweeper.p8"
             ],
             "problemMatcher": []
         }
