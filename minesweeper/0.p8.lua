@@ -3,7 +3,7 @@
 --v1.0 (2020.07.26)
 
 function _init()
-	printh("--start mines --")
+	printh("--start mines--")
 
 	cartdata("r01-minesweeper")
 	high_score = dget(0)
