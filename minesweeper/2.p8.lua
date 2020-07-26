@@ -12,7 +12,6 @@ function make_sampler(n)
 	-- remove number from sampler
 	sampler.remove_number = function(n)
 		del(sampler.items, n)
-		sampler.items[n + 1] = sampler.items[#sampler.items]
 	end
 
 	-- get a random item w/o replacement
@@ -21,7 +20,7 @@ function make_sampler(n)
 		r = 1 + flr(rnd(#sampler.items - 1))
 		-- get item from index
 		tmp = sampler.items[r]
-		-- move item from last position to index
+		-- delete item from sampler
 		deli(sampler.items, r)
 
 		return tmp
