@@ -19,6 +19,6 @@ Clear all of the safe tiles to win the game! But be careful: accidentally cleari
  * You can clear maybe flagged tiles
  * You can't flag cleared tiles
  * You can't lose on the first turn
- * Mines are generated after the first move, so you are guarenteed to hit a space with 0 adjacent mines on your first turn.
+ * Mines are generated after the first move, so you are guaranteed to hit a space with 0 adjacent mines on your first turn.
  * There is a timer and high score. The timer starts counting up after the first tile is cleared or the first flag is placed.
  * The default high score is 500 seconds.
